@@ -1,0 +1,66 @@
+---
+import { HEADER_NAME } from "../../constants";
+---
+
+<header>
+    <nav>
+        <div class="header-start header-part">
+            <p class="header-title">{HEADER_NAME}</p>
+        </div>
+        <div class="header-end header-part">
+            <a href="#blog">Blog</a>
+            <a href="#projects">Projects</a>
+            <a href="#about">About</a>
+        </div>
+    </nav>
+</header>
+
+<style>
+    header {
+        background-color: #eee;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .header-title {
+        display: inline-block;
+        text-align: center;
+        font-size: 1.5rem;
+        line-height: 2.75rem;
+        font-weight: 600;
+        padding: 0rem 1rem;
+        color: #333;
+
+        height: 100%;
+    }
+
+    .header-part {
+        display: flex;
+        min-height: 3rem;
+    }
+
+    nav a {
+        text-align: center;
+
+        text-decoration: none;
+        color: #333;
+        margin: 0 0;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 3rem;
+
+        padding: 0rem 1rem;
+    }
+
+    nav a, .header-title {
+        &:hover {
+            background-color: #d9d9d9;
+        }
+    }
+</style>

@@ -1,0 +1,29 @@
+---
+import './BasePage.scss';
+import BaseHead from "./BaseHead.astro";
+
+interface Props {
+    title: string;
+    description: string;
+    image?: string;
+    meta?: any;
+    head?: any;
+}
+
+const props = Astro.props as Props;
+---
+
+<!doctype html>
+<html>
+    <BaseHead
+        title={props.title}
+        description={props.description}
+        social_image={props.image}
+        og_type={props.meta?.og_type ?? "website"}
+    >
+        <slot name="head" />
+    </BaseHead>
+    <body>
+        <slot></slot>
+    </body>
+</html>

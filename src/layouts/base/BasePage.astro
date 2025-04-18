@@ -1,0 +1,29 @@
+---
+import BlankPage from "./BlankPage.astro";
+import BaseHeader from "./BaseHeader.astro";
+import BaseFooter from "./BaseFooter.astro";
+
+interface Props {
+    title: string;
+    description: string;
+    image?: string;
+    meta?: any;
+    head?: any;
+}
+
+const props = Astro.props as Props;
+---
+
+<BlankPage
+    title={props.title}
+    description={props.description}
+    image={props.image}
+    meta={props.meta}
+    head={props.head}
+>
+    <BaseHeader>
+    </BaseHeader>
+    <slot></slot>
+    <BaseFooter>
+    </BaseFooter>
+</BlankPage>

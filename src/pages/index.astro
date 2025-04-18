@@ -1,0 +1,15 @@
+---
+import BasePage from "../layouts/base/BasePage.astro";
+import { APP_NAME, APP_DESCRIPTION } from "../constants";
+
+---
+
+<BasePage
+	title={APP_NAME}
+	description={APP_DESCRIPTION}
+>
+	<h1>Welcome to {APP_NAME}</h1>
+	<p>{APP_DESCRIPTION}</p>
+	<p>This is a simple Astro.js application.</p>
+	<p>Feel free to explore the code and make it your own!</p>
+</BasePage>

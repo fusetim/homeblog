@@ -1,0 +1,42 @@
+---
+import BasePage from './BasePage.astro';
+
+interface Props {
+    title: string;
+    description: string;
+    social_image?: string;
+    og_type?: string;
+}
+
+const { 
+    title,
+    description,
+} = Astro.props as Props;
+---
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="generator" content={Astro.generator} />
+	<title>{title}</title>
+
+    <!-- Open Graph Protocol metadata -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {Astro.props.og_type && <meta property="og:type" content={Astro.props.og_type} />}
+    {Astro.props.social_image && <meta property="og:image" content={Astro.props.social_image} />}
+    <meta property="og:url" content={Astro.url.href} />
+
+    <!-- Twitter Card metadata -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {Astro.props.social_image && <meta name="twitter:image" content={Astro.props.social_image} />}
+    <meta name="twitter:url" content={Astro.url.href} />
+
+    <!-- TODO: Future Favicon/Sitemanifest -->
+
+    <!-- Additions - Slot -->
+    <slot></slot>
+</head>
