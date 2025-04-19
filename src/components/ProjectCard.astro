@@ -1,0 +1,175 @@
+---
+import { type Language, getLanguageColor, getLanguageHoverColor } from "../libs/languages.ts";
+
+export interface Props {
+    title: string;
+    description: string;
+    image?: string;
+    link?: string;
+    tags?: string[];
+    license?: string;
+    languages?: Language[];
+};
+
+const props = Astro.props as Props;
+---
+
+<a class:list={["project-card", props.link ? "clickable" : ""]} href={props.link ?? `#${props.title}`} target="_blank" rel="opener referrer">
+    <div class="card-top">
+        {props.image && <img src={props.image} alt={props.title} />}
+        <p class="project-name">{props.title}</p>
+        <p class="project-desc">{props.description}</p>
+
+    {props.tags && (
+        <div class="tags">
+            {props.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+            ))}
+        </div>
+    )}
+    
+    </div>
+
+    <div class="card-bottom">
+    <!-- Language bar, similar to Github -->
+    {props.languages && (
+        <div class="languages">
+            {props.languages.map((language) => (
+                <div class="language" style={`--langColor: ${getLanguageColor(language)}; --langColorHover: ${getLanguageHoverColor(language)};`}>
+                    <p class="tooltip">{language.name}</p>
+                </div>
+            ))}
+        </div>
+    )}
+    </div>
+</a>
+
+<style lang="scss">
+    a {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+
+        &:hover {
+            text-decoration: none;
+            color: inherit;
+        }
+    }
+
+    .project-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 16px;
+        background-color: #f9f9f9;
+
+        outline: 1px solid transparent;
+        transition: outline-color 0.2s ease;
+
+        cursor: default;
+
+        &:hover {
+            outline-color: #3d66bf;
+            border-color: #3d66bf;
+            background-color: #f7f8fb;
+        }
+
+        &.clickable {
+            cursor: pointer;
+        }
+    }
+
+    .project-card img {
+        max-width: 30%;
+        border-radius: 8px;
+        float: right;
+    }
+
+    .project-name {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .tag {
+        background-color: #d1dfff;
+        border-radius: 9999px;
+        border: 1px solid #3d66bf;
+        padding: 2px 12px;
+        font-size: 0.75rem;
+    }
+
+    .languages {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1rem;
+
+        width: 100%;
+        height: 0.5rem;
+        background-color: black;
+        border-radius: 9999px;
+
+        :first-child:not(:last-child) {
+            border-radius: 9999px 0 0 9999px;
+        }
+
+        :last-child:not(:first-child) {
+            border-radius: 0 9999px 9999px 0;
+        }
+
+        :first-child:last-child {
+            border-radius: 9999px;
+        }
+    }
+
+    .language {
+        background-color: var(--langColor);
+        height: 0.5rem;
+        flex: 1;
+
+        position: relative;
+
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .language .tooltip {
+        position: absolute;
+        top: -1.75rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--langColor);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.2s ease-in-out;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }   
+
+    .language:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .language:hover {
+        background-color: var(--langColorHover);
+    }
+</style>

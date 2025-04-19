@@ -1,15 +1,102 @@
 ---
 import BasePage from "../layouts/base/BasePage.astro";
 import { APP_NAME, APP_DESCRIPTION } from "../constants";
+import type { Props as ProjectCardProps } from "../components/ProjectCard.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { LANGUAGES } from "../libs/languages";
 
+const projectHighlights: ProjectCardProps[] = [
+	{
+		title: "bitcrawler",
+		description: "DHT crawler for the BitTorrent protocol, an experiment to learn more about Kademlia and DHT.",
+		image: undefined,
+		link: "https://github.com/fusetim/bitcrawler",
+		tags: ["DHT", "BitTorrent", "Crawler"],
+		languages: [LANGUAGES.RUST],
+		license: "MIT License",
+	},
+	{
+		title: "fluent4s",
+		description: "Fluent language made available for Scala and other JWM projects.",
+		image: "https://avatars.githubusercontent.com/u/88927100?s=200&v=4",
+		link: "https://github.com/fluent4s/fluent4s",
+		tags: ["Fluent", "Scala", "JVM"],
+		languages: [LANGUAGES.SCALA],
+		license: "Apache License 2.0",
+	},
+	{
+		title: "Anim'Est - Website and Online Store",
+		description: "Entire website and online ticket store for the Anim'Est convention.",
+		image: "https://animest.net/assets/brand/logo.png",
+		link: "https://animest.net",
+		tags: ["Fullstack", "E-commerce", "Japanese-themed event"],
+		languages: [LANGUAGES.TYPESCRIPT, LANGUAGES.JAVASCRIPT, LANGUAGES.PYTHON],
+	}
+];
 ---
 
 <BasePage
 	title={APP_NAME}
 	description={APP_DESCRIPTION}
 >
-	<h1>Welcome to {APP_NAME}</h1>
-	<p>{APP_DESCRIPTION}</p>
-	<p>This is a simple Astro.js application.</p>
-	<p>Feel free to explore the code and make it your own!</p>
+	<main class="container">
+		<section id="profile">
+			<h1>FuseTim</h1>
+			<h2>French CS student, dabbling in every IT fields possible!</h2>
+		</section>
+		<section id="about">
+	
+		</section>
+		<section id="projects">
+			<h2>Projects</h2>
+			<div class="project-highlights">
+				{projectHighlights.map((project) => (
+					<ProjectCard
+						title={project.title}
+						description={project.description}
+						image={project.image}
+						link={project.link}
+						tags={project.tags}
+						languages={project.languages}
+						license={project.license}
+					/>
+				))}
+			</div>
+		</section>
+		<section id="blog">
+			<h2>Last posts</h2>
+		</section>
+	</main>
 </BasePage>
+
+<style>
+	section {
+		margin: 4rem 0.5rem;
+
+		h2 {
+			margin-bottom: 1rem;
+		}
+	}
+
+	#profile {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}	
+	#profile h1 {
+		font-size: 2.5rem;
+		line-height: 1;
+		font-weight: 600;
+		color: #333;
+	}
+	#profile h2 {
+		font-size: 1.5rem;
+		font-weight: 400;
+		color: #555;
+	}
+	.project-highlights {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 1rem;
+	}
+</style>
