@@ -4,6 +4,9 @@ import { APP_NAME, APP_DESCRIPTION } from "../constants";
 import type { Props as ProjectCardProps } from "../components/ProjectCard.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import { LANGUAGES } from "../libs/languages";
+import MdiRightArrow from "~icons/mdi/chevron-right";
+import BriefPostCard from "../components/BriefPostCard.astro";
+import type { Props as BriefPostCardProps } from "../components/BriefPostCard.astro";
 
 const projectHighlights: ProjectCardProps[] = [
 	{
@@ -25,7 +28,7 @@ const projectHighlights: ProjectCardProps[] = [
 	},
 	{
 		title: "fluent4s",
-		description: "Fluent language made available for Scala and other JWM projects.",
+		description: "Fluent language made available for Scala and JVM-based projects.",
 		image: "https://avatars.githubusercontent.com/u/88927100?s=200&v=4",
 		link: "https://github.com/fluent4s/fluent4s",
 		tags: ["Fluent", "Scala", "JVM"],
@@ -42,6 +45,23 @@ const projectHighlights: ProjectCardProps[] = [
 		license: "CeCILL license v2.1",
 	}
 ];
+
+const latestPosts: BriefPostCardProps[] = [
+	{
+		title: "How to use the DHT in BitTorrent",
+		description: "A short article explaining how to use the DHT in BitTorrent.",
+		link: "/blog/dht-bittorrent",
+		tags: ["BitTorrent", "DHT", "Kademlia"],
+		date: "23 October 2023",
+	},
+	{
+		title: "How to use the DHT in BitTorrent",
+		description: "A short article explaining how to use the DHT in BitTorrent.",
+		link: "/blog/dht-bittorrent",
+		tags: ["BitTorrent", "DHT", "Kademlia"],
+		date: "28 May 2022",
+	},
+];
 ---
 
 <BasePage
@@ -57,7 +77,7 @@ const projectHighlights: ProjectCardProps[] = [
 	
 		</section>
 		<section id="projects">
-			<h2>Projects</h2>
+			<h3>Projects</h3>
 			<div class="project-highlights">
 				{projectHighlights.map((project) => (
 					<ProjectCard
@@ -71,9 +91,28 @@ const projectHighlights: ProjectCardProps[] = [
 					/>
 				))}
 			</div>
+			<a href="#projects" class="btn more">
+				<span>More projects</span>
+				<MdiRightArrow></MdiRightArrow>
+			</a>
 		</section>
 		<section id="blog">
-			<h2>Last posts</h2>
+			<h3>Last posts</h3>
+			<div class="post-highlights">
+				{latestPosts.map((post) => (
+					<BriefPostCard
+						title={post.title}
+						description={post.description}
+						date={post.date}
+						link={post.link}
+						tags={post.tags}
+					/>
+				))}
+			</div>
+			<a href="#blog" class="btn more">
+				<span>More posts</span>
+				<MdiRightArrow></MdiRightArrow>
+			</a>
 		</section>
 	</main>
 </BasePage>
@@ -82,7 +121,8 @@ const projectHighlights: ProjectCardProps[] = [
 	section {
 		margin: 4rem 0.5rem;
 
-		h2 {
+		h3 {
+			font-size: 1.75rem;
 			margin-bottom: 1rem;
 		}
 	}
@@ -108,5 +148,52 @@ const projectHighlights: ProjectCardProps[] = [
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 		gap: 1rem;
+	}
+	.post-highlights {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+	}
+	.btn.more {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		padding: 0.5rem 0.5rem 0.5rem 1rem;
+		margin: 1rem auto;
+
+		border-radius: 8px;
+		border: 1px solid #ccc;
+		background-color: #f9f9f9;
+		outline: 1px solid transparent;
+
+		width: fit-content;
+
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		font-weight: 600;
+
+		transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, outline-color 0.2s ease-in-out;
+
+		@media (max-width: 600px) {
+			width: 100%;
+		}
+	}
+	.btn.more:hover {
+		background-color: #f7f8fb;
+		outline-color: #3d66bf;
+		border-color: #3d66bf;
+		color: #0d1f48;
+		svg {
+			transform: translateX(0.25rem);
+		}
+	}
+	.btn.more svg {
+		margin-left: 0.5rem;
+		transition: transform 0.2s ease-in-out;
+	}
+	a.btn {
+		text-decoration: none;
+		color: inherit;
 	}
 </style>

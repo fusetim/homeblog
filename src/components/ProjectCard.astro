@@ -1,5 +1,6 @@
 ---
 import { type Language, getLanguageColor, getLanguageHoverColor } from "../libs/languages.ts";
+import "./Card.scss";
 
 export interface Props {
     title: string;
@@ -14,7 +15,7 @@ export interface Props {
 const props = Astro.props as Props;
 ---
 
-<a class:list={["project-card", props.link ? "clickable" : ""]} href={props.link ?? `#${props.title}`} target="_blank" rel="opener referrer">
+<a class:list={["card","project-card", props.link ? "clickable" : ""]} href={props.link ?? `#${props.title}`} target="_blank" rel="opener referrer">
     <div class="card-top">
         {props.image && <img src={props.image} alt={props.title} />}
         <p class="project-name">{props.title}</p>
@@ -45,46 +46,6 @@ const props = Astro.props as Props;
 </a>
 
 <style lang="scss">
-    a {
-        text-decoration: none;
-        color: inherit;
-        display: block;
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-
-        &:hover {
-            text-decoration: none;
-            color: inherit;
-        }
-    }
-
-    .project-card {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        padding: 16px;
-        background-color: #f9f9f9;
-
-        outline: 1px solid transparent;
-        transition: outline-color 0.2s ease;
-
-        cursor: default;
-
-        &:hover {
-            outline-color: #3d66bf;
-            border-color: #3d66bf;
-            background-color: #f7f8fb;
-        }
-
-        &.clickable {
-            cursor: pointer;
-        }
-    }
-
     .project-card img {
         max-width: 30%;
         border-radius: 8px;

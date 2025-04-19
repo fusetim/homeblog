@@ -1,0 +1,25 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #f9f9f9;
+
+    outline: 1px solid transparent;
+
+    cursor: default;
+
+    &.clickable:hover {
+        outline-color: #3d66bf;
+        border-color: #3d66bf;
+        background-color: #f7f8fb;
+    }
+
+    &.clickable {
+        cursor: pointer;
+        transition: outline-color 0.2s ease;
+    }   
+}

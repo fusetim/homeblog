@@ -1,0 +1,124 @@
+---
+import "./Card.scss";
+import MdiClock from "~icons/mdi/clock";
+import MdiPen from "~icons/mdi/pen";
+import MdiCalendar from "~icons/mdi/calendar";
+
+export interface Props {
+    title: string;
+    description: string;
+    date: string;
+    tags?: string[];
+    link: string;
+}
+
+const props = Astro.props as Props;
+---
+
+<a href={props.link} class="card post-card clickable">
+    <div class="card-header">
+        <h6 class="post-title">{props.title}</h6>
+        <div class="post-date">
+            <MdiCalendar />
+            <p>{props.date}</p>
+        </div>
+    </div>
+    <p class="post-desc">{props.description}</p>
+    <div class="card-footer">
+        {props.tags && (
+            <div class="tags">
+                {props.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                ))}
+            </div>
+        )}
+        {!props.tags && (
+            <div class="tags">
+                <span class="tag">No Tags</span>
+            </div>
+        )}
+        <div class="readtime">
+            <div>
+                <MdiClock />
+                <p>5 min</p>
+            </div>
+            <div>
+                <MdiPen />
+                <p>1934 words</p>
+            </div>
+        </div>
+    </div>
+</a>
+
+<style lang="scss">
+    h6 {
+        font-size: 1.25rem;
+        font-weight: 500;
+    }
+
+    .card-footer, .card-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        @media (max-width: 840px) {
+            flex-direction: column-reverse;
+            align-items: flex-start;
+        }
+    }
+
+    .post-date {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 1rem;
+        color: #555;
+
+        gap: 0.25rem;
+    }
+
+    .post-desc {
+        margin-bottom: 0.5rem;
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .tag {
+        background-color: #d1dfff;
+        border-radius: 9999px;
+        border: 1px solid #3d66bf;
+        padding: 2px 12px;
+        font-size: 0.75rem;
+    }
+
+    .readtime {
+        display: inline-flex;
+        flex-direction: row;
+
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 1rem;
+
+        div {
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        p, svg {
+            font-size: 1rem;
+            margin-left: 4px;
+            color: #555;
+        }
+
+        @media (max-width: 840px) {
+            display: none;            
+        }
+    }
+</style>

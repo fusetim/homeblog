@@ -53,3 +53,15 @@ h3 {
     font-weight: 600;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    &:hover {
+        text-decoration: none;
+        color: inherit;
+    }
+}
