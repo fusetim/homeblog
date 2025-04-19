@@ -81,13 +81,7 @@ const latestPosts: BriefPostCardProps[] = [
 			<div class="project-highlights">
 				{projectHighlights.map((project) => (
 					<ProjectCard
-						title={project.title}
-						description={project.description}
-						image={project.image}
-						link={project.link}
-						tags={project.tags}
-						languages={project.languages}
-						license={project.license}
+						{...project}
 					/>
 				))}
 			</div>
@@ -101,15 +95,11 @@ const latestPosts: BriefPostCardProps[] = [
 			<div class="post-highlights">
 				{latestPosts.map((post) => (
 					<BriefPostCard
-						title={post.title}
-						description={post.description}
-						date={post.date}
-						link={post.link}
-						tags={post.tags}
+						{...post}
 					/>
 				))}
 			</div>
-			<a href="#blog" class="btn more">
+			<a href="/blog" class="btn more">
 				<span>More posts</span>
 				<MdiRightArrow></MdiRightArrow>
 			</a>
@@ -117,7 +107,7 @@ const latestPosts: BriefPostCardProps[] = [
 	</main>
 </BasePage>
 
-<style>
+<style lang="scss">
 	section {
 		margin: 4rem 0.5rem;
 

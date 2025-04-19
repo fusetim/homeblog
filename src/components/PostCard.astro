@@ -3,6 +3,7 @@ import "./Card.scss";
 import MdiClock from "~icons/mdi/clock";
 import MdiPen from "~icons/mdi/pen";
 import MdiCalendar from "~icons/mdi/calendar";
+import MdiArrowRight from "~icons/mdi/arrow-right";
 
 export interface Props {
     title: string;
@@ -25,20 +26,23 @@ const props = Astro.props as Props;
             <p>{props.date}</p>
         </div>
     </div>
-    <p class="post-desc">{props.description}</p>
-    <div class="card-footer">
-        {props.tags && (
-            <div class="tags">
-                {props.tags.map((tag) => (
-                    <span class="tag">{tag}</span>
-                ))}
-            </div>
-        )}
-        {!props.tags && (
-            <div class="tags">
-                <span class="tag">No Tags</span>
-            </div>
-        )}
+    <div class="card-meta">
+        {
+            props.tags && (
+                <div class="tags">
+                    {props.tags.map((tag) => (
+                        <span class="tag">{tag}</span>
+                    ))}
+                </div>
+            )
+        }
+        {
+            !props.tags && (
+                <div class="tags">
+                    <span class="tag">No Tags</span>
+                </div>
+            )
+        }
         <div class="readtime">
             {props.readTime && (
                 <div>
@@ -56,6 +60,13 @@ const props = Astro.props as Props;
             } 
         </div>
     </div>
+    <p class="post-desc">
+        {props.description}
+        <span class="post-link">
+            <span>Read more</span>
+            <MdiArrowRight />
+        </span>
+    </p>
 </a>
 
 <style lang="scss">
@@ -64,7 +75,8 @@ const props = Astro.props as Props;
         font-weight: 500;
     }
 
-    .card-footer, .card-header {
+    .card-meta,
+    .card-header {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -74,6 +86,10 @@ const props = Astro.props as Props;
             flex-direction: column-reverse;
             align-items: flex-start;
         }
+    }
+
+    .card-header {
+        margin-bottom: 0.25rem;
     }
 
     .post-date {
@@ -87,8 +103,30 @@ const props = Astro.props as Props;
     }
 
     .post-desc {
-        margin-bottom: 0.5rem;
+        margin-top: 0.5rem;
+        display: block;
+        text-align: justify;
         color: #333;
+    }
+
+    .post-link {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+
+        float: right;
+
+        gap: 0.25rem;
+        color: #3d66bf;
+        font-weight: 600;
+        padding: 0.5rem 0 0.5rem 0.5rem;
+        margin: -0.5rem 0;
+
+        transition: color 0.2s ease-in-out;
+    }
+
+    .post-link:hover {
+        color: #2a4b8c;
     }
 
     .tags {
@@ -120,14 +158,15 @@ const props = Astro.props as Props;
             align-items: center;
         }
 
-        p, svg {
+        p,
+        svg {
             font-size: 1rem;
             margin-left: 4px;
             color: #555;
         }
 
         @media (max-width: 840px) {
-            display: none;            
+            display: none;
         }
     }
 </style>
