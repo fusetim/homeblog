@@ -21,6 +21,7 @@ export const LANGUAGES = {
     SWIFT: { id: 'swift', name: 'Swift', color: '#ffac45' },
     KOTLIN: { id: 'kotlin', name: 'Kotlin', color: '#F18E33' },
     SCALA: { id: 'scala', name: 'Scala', color: '#c22d40' },
+    SVELTE: { id: 'sveltejs', name: 'Svelte', color: '#ff3e00' },
 };
 
 export function getLanguageColor(language: Language): string {

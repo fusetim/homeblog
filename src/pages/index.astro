@@ -11,9 +11,17 @@ const projectHighlights: ProjectCardProps[] = [
 		description: "DHT crawler for the BitTorrent protocol, an experiment to learn more about Kademlia and DHT.",
 		image: undefined,
 		link: "https://github.com/fusetim/bitcrawler",
-		tags: ["DHT", "BitTorrent", "Crawler"],
+		tags: ["DHT", "BitTorrent", "Kademlia", "P2P", "Rust"],
 		languages: [LANGUAGES.RUST],
 		license: "MIT License",
+	},
+	{
+		title: "Anim'Est - Website and Online Store",
+		description: "Entire website and online ticket store for the Anim'Est convention.",
+		image: "https://animest.net/assets/brand/logo.png",
+		link: "https://animest.net",
+		tags: ["E-commerce", "Japanese culture", "Svelte", "FastAPI"],
+		languages: [LANGUAGES.TYPESCRIPT, LANGUAGES.SVELTE, LANGUAGES.PYTHON],
 	},
 	{
 		title: "fluent4s",
@@ -25,12 +33,13 @@ const projectHighlights: ProjectCardProps[] = [
 		license: "Apache License 2.0",
 	},
 	{
-		title: "Anim'Est - Website and Online Store",
-		description: "Entire website and online ticket store for the Anim'Est convention.",
-		image: "https://animest.net/assets/brand/logo.png",
-		link: "https://animest.net",
-		tags: ["Fullstack", "E-commerce", "Japanese-themed event"],
-		languages: [LANGUAGES.TYPESCRIPT, LANGUAGES.JAVASCRIPT, LANGUAGES.PYTHON],
+		title: "BlazeVM",
+		description: "A \"blazingly-fast\" Java Virtual Machine made from scratch to learn about VM internals.",
+		image: undefined,
+		link: "https://github.com/fusetim/blazevm",
+		tags: ["Java Virtual Machine", "Rust"],
+		languages: [LANGUAGES.RUST],
+		license: "CeCILL license v2.1",
 	}
 ];
 ---
@@ -93,6 +102,7 @@ const projectHighlights: ProjectCardProps[] = [
 		font-size: 1.5rem;
 		font-weight: 400;
 		color: #555;
+		text-align: center;
 	}
 	.project-highlights {
 		display: grid;
