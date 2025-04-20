@@ -1,17 +1,13 @@
 ---
-import "./Card.scss";
 import MdiClock from "~icons/mdi/clock";
 import MdiPen from "~icons/mdi/pen";
 import MdiCalendar from "~icons/mdi/calendar";
-import MdiArrowRight from "~icons/mdi/arrow-right";
-import { getPrintableDate } from "../libs/posts";
+import { getPrintableDate } from "../../libs/posts";
 
 export interface Props {
     title: string;
-    description: string;
     date: Date;
     tags?: string[];
-    link: string;
     wordCount?: number;
     readTime?: number;
 }
@@ -19,31 +15,27 @@ export interface Props {
 const props = Astro.props as Props;
 ---
 
-<a href={props.link} class="card post-card clickable">
+<div class="post-header" {...Astro.props}>
     <div class="card-header">
-        <h6 class="post-title">{props.title}</h6>
+        <h1 class="post-title">{props.title}</h6>
         <div class="post-date">
             <MdiCalendar />
             <p>{getPrintableDate(props.date)}</p>
         </div>
     </div>
-    <div class="card-meta">
-        {
-            props.tags && (
-                <div class="tags">
-                    {props.tags.map((tag) => (
-                        <span class="tag">{tag}</span>
-                    ))}
-                </div>
-            )
-        }
-        {
-            !props.tags && (
-                <div class="tags">
-                    <span class="tag">No Tags</span>
-                </div>
-            )
-        }
+    <div class="card-footer">
+        {props.tags && (
+            <div class="tags">
+                {props.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                ))}
+            </div>
+        )}
+        {!props.tags && (
+            <div class="tags">
+                <span class="tag">No Tags</span>
+            </div>
+        )}
         <div class="readtime">
             {props.readTime && (
                 <div>
@@ -61,23 +53,16 @@ const props = Astro.props as Props;
             } 
         </div>
     </div>
-    <p class="post-desc">
-        {props.description}
-        <span class="post-link">
-            <span>Read more</span>
-            <MdiArrowRight />
-        </span>
-    </p>
-</a>
+</div>
+
 
 <style lang="scss">
-    h6 {
-        font-size: 1.25rem;
-        font-weight: 500;
+    h1 {
+        font-size: 2rem;
+        font-weight: 600;
     }
 
-    .card-meta,
-    .card-header {
+    .card-footer, .card-header {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -87,10 +72,6 @@ const props = Astro.props as Props;
             flex-direction: column-reverse;
             align-items: flex-start;
         }
-    }
-
-    .card-header {
-        margin-bottom: 0.25rem;
     }
 
     .post-date {
@@ -104,30 +85,8 @@ const props = Astro.props as Props;
     }
 
     .post-desc {
-        margin-top: 0.5rem;
-        display: block;
-        text-align: justify;
+        margin-bottom: 0.5rem;
         color: #333;
-    }
-
-    .post-link {
-        display: inline-flex;
-        flex-direction: row;
-        align-items: center;
-
-        float: right;
-
-        gap: 0.25rem;
-        color: #3d66bf;
-        font-weight: 600;
-        padding: 0.5rem 0 0.5rem 0.5rem;
-        margin: -0.5rem 0;
-
-        transition: color 0.2s ease-in-out;
-    }
-
-    .post-link:hover {
-        color: #2a4b8c;
     }
 
     .tags {
@@ -159,15 +118,14 @@ const props = Astro.props as Props;
             align-items: center;
         }
 
-        p,
-        svg {
+        p, svg {
             font-size: 1rem;
             margin-left: 4px;
             color: #555;
         }
 
         @media (max-width: 840px) {
-            display: none;
+            display: none;            
         }
     }
 </style>

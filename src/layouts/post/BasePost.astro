@@ -1,0 +1,74 @@
+---
+import BasePage from '../base/BasePage.astro';
+import { APP_NAME } from '../../constants';
+import BasePostHeader from './BasePostHeader.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  tags: string[];
+  wordCount?: number;
+  readTime?: number;
+}
+
+const props = Astro.props as Props;
+---
+
+
+<BasePage
+	title={`${props.title} - ${APP_NAME}`}
+	description={props.description}
+>
+	<div class="container">
+        <article class="post">
+            <BasePostHeader
+                title={props.title}
+                date={props.date}
+                tags={props.tags}
+                wordCount={props.wordCount}
+                readTime={props.readTime}
+            ></BasePostHeader>
+            <main class="post-content">
+                <slot></slot>
+            </main>
+            <div class="post-comments"></div>
+        </article>
+    </div>
+</BasePage>
+
+<style lang="scss">
+    .container {
+        padding: 2rem 0;
+    }
+
+    .post {
+        margin: 2rem 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+
+        :first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        :last-child {
+            border-radius: 0 0 8px 8px;
+        }
+    }
+
+    .post-header, .post-content, .post-comments {
+        padding: 1rem;
+    }
+
+    .post-header {
+        border-bottom: 1px solid #ccc;
+        background-color: #f9f9f9;
+    }
+
+    .post-comments {
+        border-top: 1px solid #ccc;
+        background-color: #f9f9f9;
+    }
+</style>

@@ -7,6 +7,7 @@ import { LANGUAGES } from "../libs/languages";
 import MdiRightArrow from "~icons/mdi/chevron-right";
 import BriefPostCard from "../components/BriefPostCard.astro";
 import type { Props as BriefPostCardProps } from "../components/BriefPostCard.astro";
+import { getAllBlogPosts, getPostLink, getBlogPostWordCount, getBlogPostReadTime } from "../libs/posts";
 
 const projectHighlights: ProjectCardProps[] = [
 	{
@@ -46,22 +47,19 @@ const projectHighlights: ProjectCardProps[] = [
 	}
 ];
 
-const latestPosts: BriefPostCardProps[] = [
-	{
-		title: "How to use the DHT in BitTorrent",
-		description: "A short article explaining how to use the DHT in BitTorrent.",
-		link: "/blog/dht-bittorrent",
-		tags: ["BitTorrent", "DHT", "Kademlia"],
-		date: "23 October 2023",
-	},
-	{
-		title: "How to use the DHT in BitTorrent",
-		description: "A short article explaining how to use the DHT in BitTorrent.",
-		link: "/blog/dht-bittorrent",
-		tags: ["BitTorrent", "DHT", "Kademlia"],
-		date: "28 May 2022",
-	},
-];
+const latestPosts : BriefPostCardProps[] = await getAllBlogPosts().then((posts) => {
+    return posts
+		.slice(0, 3)
+        .map((post) => ({
+            title: post.title,
+            description: post.description,
+            date: post.publication_date,
+            tags: post.tags,
+            link: getPostLink(post),
+            wordCount: getBlogPostWordCount(post) ?? undefined,
+            readTime: getBlogPostReadTime(post) ?? undefined,
+        }));
+});
 ---
 
 <BasePage

@@ -3,11 +3,12 @@ import "./Card.scss";
 import MdiClock from "~icons/mdi/clock";
 import MdiPen from "~icons/mdi/pen";
 import MdiCalendar from "~icons/mdi/calendar";
+import { getPrintableDate } from "../libs/posts";
 
 export interface Props {
     title: string;
     description: string;
-    date: string;
+    date: Date;
     tags?: string[];
     link: string;
     wordCount?: number;
@@ -22,7 +23,7 @@ const props = Astro.props as Props;
         <h6 class="post-title">{props.title}</h6>
         <div class="post-date">
             <MdiCalendar />
-            <p>{props.date}</p>
+            <p>{getPrintableDate(props.date)}</p>
         </div>
     </div>
     <p class="post-desc">{props.description}</p>

@@ -4,25 +4,21 @@ import { APP_NAME, APP_DESCRIPTION } from "../../constants";
 import MdiRightArrow from "~icons/mdi/chevron-right";
 import PostCard from "../../components/PostCard.astro";
 import type { Props as PostCardProps } from "../../components/PostCard.astro";
+import { getAllBlogPosts, getPostLink, getBlogPostReadTime, getBlogPostWordCount } from "../../libs/posts";
 
-const latestPosts: PostCardProps[] = [
-	{
-		title: "How to use the DHT in BitTorrent",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac iaculis libero. Suspendisse et sodales tellus, ut sodales mi. Proin scelerisque est nec laoreet aliquet. Aenean et nunc at mi efficitur sollicitudin at quis diam. Aenean mi massa, sollicitudin eu condimentum sed, sodales ut nisi. Aenean iaculis ante id gravida hendrerit. Nulla nisi neque, facilisis vitae viverra ac, interdum malesuada quam. Quisque laoreet leo nec lectus lacinia, in lacinia enim tempor.",
-		link: "/blog/dht-bittorrent",
-		tags: ["BitTorrent", "DHT", "Kademlia"],
-		date: "23 October 2023",
-	},
-	{
-		title: "How to use the DHT in BitTorrent",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac iaculis libero. Suspendisse et sodales tellus, ut sodales mi. Proin scelerisque est nec laoreet aliquet. Aenean et nunc at mi efficitur sollicitudin at quis diam. Aenean mi massa, sollicitudin eu condimentum sed, sodales ut nisi. Aenean iaculis ante id gravida hendrerit. Nulla nisi neque, facilisis vitae viverra ac, interdum malesuada quam. Quisque laoreet leo nec lectus lacinia, in lacinia enim tempor.",
-		link: "/blog/dht-bittorrent",
-		tags: ["BitTorrent", "DHT", "Kademlia"],
-		date: "28 May 2022",
-        readTime: 5,
-        wordCount: 1200,
-	},
-];
+
+const latestPosts : PostCardProps[] = await getAllBlogPosts().then((posts) => {
+    return posts
+        .map((post) => ({
+            title: post.title,
+            description: post.description,
+            date: post.publication_date,
+            tags: post.tags,
+            link: getPostLink(post),
+            wordCount: getBlogPostWordCount(post) ?? undefined,
+            readTime: getBlogPostReadTime(post) ?? undefined,
+        }));
+});
 ---
 
 <BasePage
