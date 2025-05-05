@@ -2,7 +2,7 @@
 import { render } from "astro:content";
 import BasePost from "../../layouts/post/BasePost.astro"
 
-import { getAllBlogPosts, getBlogPost, getRawBlogPost, type BlogPost } from "../../libs/posts";
+import { getAllBlogPosts, getBlogPost, getBlogPostReadTime, getBlogPostWordCount, getRawBlogPost, type BlogPost } from "../../libs/posts";
 
 export async function getStaticPaths() {
     const posts = await getAllBlogPosts();
@@ -14,9 +14,13 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const entry = await getRawBlogPost(post.id);
+
 const { Content } = await render(entry);
+const readTime = getBlogPostReadTime(entry);
+const wordCount = getBlogPostWordCount(entry);
+
 ---
 
-<BasePost {...post}>
+<BasePost {...post} readTime={readTime ?? undefined} wordCount={wordCount ?? undefined}>
     <Content />
 </BasePost>

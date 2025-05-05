@@ -1,26 +1,25 @@
 ---
-import BasePage from '../base/BasePage.astro';
-import { APP_NAME } from '../../constants';
-import BasePostHeader from './BasePostHeader.astro';
+import BasePage from "../base/BasePage.astro";
+import { APP_NAME } from "../../constants";
+import BasePostHeader from "./BasePostHeader.astro";
 
 export interface Props {
-  title: string;
-  description: string;
-  date: Date;
-  tags: string[];
-  wordCount?: number;
-  readTime?: number;
+    title: string;
+    description: string;
+    date: Date;
+    tags: string[];
+    wordCount?: number;
+    readTime?: number;
 }
 
 const props = Astro.props as Props;
 ---
 
-
 <BasePage
-	title={`${props.title} - ${APP_NAME}`}
-	description={props.description}
+    title={`${props.title} - ${APP_NAME}`}
+    description={props.description}
 >
-	<div class="container">
+    <div class="container">
         <article class="post">
             <BasePostHeader
                 title={props.title}
@@ -28,9 +27,9 @@ const props = Astro.props as Props;
                 tags={props.tags}
                 wordCount={props.wordCount}
                 readTime={props.readTime}
-            ></BasePostHeader>
+            />
             <main class="post-content">
-                <slot></slot>
+                <slot />
             </main>
             <div class="post-comments"></div>
         </article>
@@ -58,7 +57,9 @@ const props = Astro.props as Props;
         }
     }
 
-    .post-header, .post-content, .post-comments {
+    .post-header,
+    .post-content,
+    .post-comments {
         padding: 1rem;
     }
 
@@ -70,5 +71,228 @@ const props = Astro.props as Props;
     .post-comments {
         border-top: 1px solid #ccc;
         background-color: #f9f9f9;
+    }
+
+    :global(.post-comments) {
+        color: #56595d;
+        background-color: #ffffff;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+            Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        line-height: 1.6;
+        font-size: 1.05rem;
+        word-wrap: break-word;
+    }
+
+    .post-content :global(h1),
+    .post-content :global(h2),
+    .post-content :global(h3),
+    .post-content :global(h4),
+    .post-content :global(h5),
+    .post-content :global(h6) {
+        color: #1f2328;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        line-height: 1.25;
+    }
+
+    .post-content :global(h1) {
+        padding-bottom: 0.3em;
+        font-size: 1.75rem;
+        border-bottom: 1px solid #d1d9e0b3;
+    }
+
+    .post-content :global(h2) {
+        padding-bottom: 0.3em;
+        font-size: 1.5rem;
+        border-bottom: 1px solid #d1d9e0b3;
+    }
+
+    .post-content :global(h3) {
+        font-size: 1.25rem;
+    }
+
+    .post-content :global(h4) {
+        font-size: 1.125rem;
+    }
+
+    .post-content :global(h5) {
+        font-size: 1rem;
+    }
+
+    .post-content :global(h6) {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .post-content :global(p) {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: #272d33;
+    }
+
+    .post-content :global(a) {
+        background-color: transparent;
+        color: #0969da;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .post-content :global(blockquote) {
+        margin: 0;
+        padding: 0.5rem 1rem;
+        color: #6d7782;
+        background-color: rgba(209, 217, 224, 0.2);
+        border-left: 0.25em solid #d1d9e0;
+
+        & :global(:last-child) {
+            margin-bottom: 0;
+        }
+    }
+
+    .post-content :global(ul),
+    .post-content :global(ol) {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-left: 2em;
+    }
+
+    .post-content :global(ol) :global(ol),
+    .post-content :global(ul) :global(ol) {
+        list-style-type: lower-roman;
+    }
+
+    .post-content :global(ul) :global(ul) :global(ol),
+    .post-content :global(ul) :global(ol) :global(ol),
+    .post-content :global(ol) :global(ul) :global(ol),
+    .post-content :global(ol) :global(ol) :global(ol) {
+        list-style-type: lower-alpha;
+    }
+
+    .post-content :global(tt),
+    .post-content :global(code),
+    .post-content :global(samp) {
+        font-family:
+            ui-monospace,
+            SFMono-Regular,
+            SF Mono,
+            Menlo,
+            Consolas,
+            Liberation Mono,
+            monospace;
+        font-size: 12px;
+    }
+
+    .post-content :global(pre) {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-family:
+            ui-monospace,
+            SFMono-Regular,
+            SF Mono,
+            Menlo,
+            Consolas,
+            Liberation Mono,
+            monospace;
+        font-size: 12px;
+        word-wrap: normal;
+    }
+
+    .post-content :global(p),
+    .post-content :global(blockquote),
+    .post-content :global(ul),
+    .post-content :global(ol),
+    .post-content :global(dl),
+    .post-content :global(table),
+    .post-content :global(pre),
+    .post-content :global(details) {
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+
+    .post-content :global(blockquote) > :first-child {
+        margin-top: 0;
+    }
+
+    .post-content :global(blockquote) > :last-child {
+        margin-bottom: 0;
+    }
+
+    .post-content code,
+    .post-content tt {
+        padding: 0.2em 0.4em;
+        margin: 0;
+        font-size: 85%;
+        white-space: break-spaces;
+        background-color: #818b981f;
+        border-radius: 6px;
+    }
+
+    .post-content :global(code) :global(br),
+    .post-content :global(tt) :global(br) {
+        display: none;
+    }
+
+    .post-content :global(del) :global(code) {
+        text-decoration: inherit;
+    }
+
+    .post-content :global(samp) {
+        font-size: 85%;
+    }
+
+    .post-content :global(pre) :global(code) {
+        font-size: 100%;
+    }
+
+    .post-content :global(pre) > :global(code) {
+        padding: 0;
+        margin: 0;
+        word-break: normal;
+        white-space: pre;
+        background: transparent;
+        border: 0;
+    }
+
+    .post-content :global(.highlight) {
+        margin-bottom: 1rem;
+    }
+
+    .post-content :global(.highlight) :global(pre) {
+        margin-bottom: 0;
+        word-break: normal;
+    }
+
+    .post-content :global(.highlight) :global(pre),
+    .post-content :global(pre) {
+        padding: 1rem;
+        overflow: auto;
+        font-size: 85%;
+        line-height: 1.45;
+        color: #1f2328;
+        background-color: #f6f8fa;
+        border-radius: 6px;
+    }
+
+    .post-content :global(pre) :global(code),
+    .post-content :global(pre) :global(tt) {
+        display: inline;
+        max-width: auto;
+        padding: 0;
+        margin: 0;
+        overflow: visible;
+        line-height: inherit;
+        word-wrap: normal;
+        background-color: transparent;
+        border: 0;
+    }
+
+    .post-content :global(img) {
+        border-style: none;
+        max-width: 100%;
+        box-sizing: content-box;
     }
 </style>
