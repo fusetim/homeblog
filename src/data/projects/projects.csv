@@ -1,0 +1,5 @@
+id,name,description,image,link,tags,langs
+animest,Anim'Est - Website and eShop,"Website and online ticket store for the Anim'Est convention.",animest.png,https://animest.net,E-commerce;Japanese Culture;Event,sveltejs;go;typescript
+blazevm,BlazeVM,"A blazingly-fast Java Virtual Machine made from scratch to learn about VM internals.",,https://github.com/fusetim/blazevm,Rust;JVM;Virtual Machine,rust
+radio-tipe-poc,radio-tipe-poc,"A PoC for a new link-layer network protocol for low-power and long-range communication based upon LoRa.",,https://github.com/fusetim/radio_tipe_poc,IoT;Networking;Protocol;LoRa;ESP32,Rust
+magmaon-viz,Magmaon-Viz,"Web-application to vizualize Eurobot competition matches (for sim or real matches).",,https://github.com/magmaon/magmaon-viz,Robotics;Eurobot;Visualization,typescript

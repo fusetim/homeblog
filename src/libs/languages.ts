@@ -31,3 +31,8 @@ export function getLanguageColor(language: Language): string {
 export function getLanguageHoverColor(language: Language): string {
     return `${language.color}CC`;
 }
+
+export function getLanguageById(id: string): Language | undefined {
+    const langKey = Object.keys(LANGUAGES).find(key => LANGUAGES[key as keyof typeof LANGUAGES].id === id.toLowerCase());
+    return langKey ? LANGUAGES[langKey as keyof typeof LANGUAGES] : undefined;
+}

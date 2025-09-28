@@ -1,14 +1,14 @@
 ---
 import { type Language, getLanguageColor, getLanguageHoverColor } from "../libs/languages.ts";
 import "./Card.scss";
+import { Image } from "astro:assets";
 
 export interface Props {
     title: string;
     description: string;
-    image?: string;
+    image?: ImageMetadata | string;
     link?: string;
     tags?: string[];
-    license?: string;
     languages?: Language[];
 };
 
@@ -17,7 +17,11 @@ const props = Astro.props as Props;
 
 <a class:list={["card","project-card", props.link ? "clickable" : ""]} href={props.link ?? `#${props.title}`} target="_blank" rel="opener referrer">
     <div class="card-top">
-        {props.image && <img src={props.image} alt={props.title} />}
+        {props.image && ( 
+        typeof props.image === "string" ? 
+            <img src={props.image} alt={props.title} /> :
+            <Image src={props.image} alt={props.title} />
+        )}
         <p class="project-name">{props.title}</p>
         <p class="project-desc">{props.description}</p>
 
@@ -47,7 +51,10 @@ const props = Astro.props as Props;
 
 <style lang="scss">
     .project-card img {
+        display: block;
         max-width: 30%;
+        height: fit-content;
+        object-fit: contain;
         border-radius: 8px;
         float: right;
     }

@@ -25,12 +25,16 @@ body {
 }
 
 .container {
-    max-width: 840px;
+    max-width: 56rem;
     margin: 0 auto;
 
     @media (max-width: 840px) {
         padding: 0 0.5rem;
     }
+}
+
+.container.relaxed {
+    max-width: 64rem;
 }
 
 h1, h2, h3, h4, h5, h6, p {

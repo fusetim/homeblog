@@ -1,10 +1,7 @@
-// 1. Import utilities from `astro:content`
 import { defineCollection, z } from 'astro:content';
-
-// 2. Import loader(s)
+import { parse as parseCsv } from "csv-parse/sync";
 import { glob, file } from 'astro/loaders';
 
-// 3. Define your collection(s)
 const blog = defineCollection({
     loader: glob({ pattern: "**/*.md", base: "./src/data/blog" }),
     schema: z.object({
@@ -19,5 +16,17 @@ const blog = defineCollection({
       }),
 });
 
-// 4. Export a single `collections` object to register your collection(s)
-export const collections = { blog };
+const projects = defineCollection({
+    loader: file("./src/data/projects/projects.csv", { parser: (text) => parseCsv(text, { columns: true, skipEmptyLines: true })}),
+    schema: z.object({
+        id: z.string(),
+        name: z.string(),
+        description: z.string(),
+        image: z.string().optional(),
+        link: z.string().optional(),
+        tags: z.string().transform((val) => val ? val.split(';').map(tag => tag.trim()) : []),
+        langs: z.string().transform((val) => val ? val.split(';').map(lang => lang.trim()) : []),
+      }),
+});
+
+export const collections = { blog, projects };

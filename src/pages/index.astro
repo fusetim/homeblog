@@ -3,49 +3,25 @@ import BasePage from "../layouts/base/BasePage.astro";
 import { APP_NAME, APP_DESCRIPTION } from "../constants";
 import type { Props as ProjectCardProps } from "../components/ProjectCard.astro";
 import ProjectCard from "../components/ProjectCard.astro";
-import { LANGUAGES } from "../libs/languages";
 import MdiRightArrow from "~icons/mdi/chevron-right";
 import BriefPostCard from "../components/BriefPostCard.astro";
 import type { Props as BriefPostCardProps } from "../components/BriefPostCard.astro";
 import { getAllBlogPosts, getPostLink, getBlogPostWordCount, getBlogPostReadTime } from "../libs/posts";
+import { getAllProjects } from "../libs/projects";
 
-const projectHighlights: ProjectCardProps[] = [
-	{
-		title: "bitcrawler",
-		description: "DHT crawler for the BitTorrent protocol, an experiment to learn more about Kademlia and DHT.",
-		image: undefined,
-		link: "https://github.com/fusetim/bitcrawler",
-		tags: ["DHT", "BitTorrent", "Kademlia", "P2P", "Rust"],
-		languages: [LANGUAGES.RUST],
-		license: "MIT License",
-	},
-	{
-		title: "Anim'Est - Website and Online Store",
-		description: "Entire website and online ticket store for the Anim'Est convention.",
-		image: "https://animest.net/assets/brand/logo.png",
-		link: "https://animest.net",
-		tags: ["E-commerce", "Japanese culture", "Svelte", "FastAPI"],
-		languages: [LANGUAGES.TYPESCRIPT, LANGUAGES.SVELTE, LANGUAGES.PYTHON],
-	},
-	{
-		title: "fluent4s",
-		description: "Fluent language made available for Scala and JVM-based projects.",
-		image: "https://avatars.githubusercontent.com/u/88927100?s=200&v=4",
-		link: "https://github.com/fluent4s/fluent4s",
-		tags: ["Fluent", "Scala", "JVM"],
-		languages: [LANGUAGES.SCALA],
-		license: "Apache License 2.0",
-	},
-	{
-		title: "BlazeVM",
-		description: "A \"blazingly-fast\" Java Virtual Machine made from scratch to learn about VM internals.",
-		image: undefined,
-		link: "https://github.com/fusetim/blazevm",
-		tags: ["Java Virtual Machine", "Rust"],
-		languages: [LANGUAGES.RUST],
-		license: "CeCILL license v2.1",
-	}
-];
+const projectHighlights: ProjectCardProps[] = await getAllProjects().then((projects) => {
+	return projects
+		.slice(0, 4)
+		.map((project) => ({
+			title: project.name,
+			description: project.description,
+			image: project.image,
+			link: project.link,
+			tags: project.tags,
+			languages: project.langs,
+		} as ProjectCardProps));
+});
+
 
 const latestPosts : BriefPostCardProps[] = await getAllBlogPosts().then((posts) => {
     return posts
@@ -83,7 +59,7 @@ const latestPosts : BriefPostCardProps[] = await getAllBlogPosts().then((posts) 
 					/>
 				))}
 			</div>
-			<a href="#projects" class="btn more">
+			<a href="https://github.com/fusetim" class="btn more">
 				<span>More projects</span>
 				<MdiRightArrow></MdiRightArrow>
 			</a>
