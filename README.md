@@ -1,47 +1,45 @@
-# Astro Starter Kit: Minimal
+# FuseTim's Homeblog
 
-```sh
-pnpm create astro@latest -- --template minimal
+This is my personal website, where I share my projects and blog posts about programming, technology, and other topics that interest me.
+
+## Technologies Used
+
+- [Astro](https://astro.build/) - A modern static site generator for building fast, content-focused websites.
+- [TypeScript](https://www.typescriptlang.org/) - A typed superset of JavaScript that compiles to plain JavaScript.
+- [Sass](https://sass-lang.com/) - A CSS preprocessor that adds the little bits of magic needed to make CSS better.
+- [Markdown](https://www.markdownguide.org/) - A lightweight markup language for creating formatted text using a plain-text editor.
+
+## Features
+
+- **Projects Showcase**: A dedicated section to showcase my personal and professional projects, complete with descriptions, images, and links.
+- **Blog**: A blog section where I share articles, tutorials, and insights on various topics.
+- **Responsive Design**: The website is fully responsive and looks great on all devices, from desktops to mobile phones.
+- **No Client-Side JavaScript**: The website is designed to use no client-side JavaScript, or as little as possible. It must be perfectly usable with JavaScript disabled, ensuring fast load times and a focus on content.
+
+And that's basically it! The goal is just to have something very simple, very lightweight, and easy to maintain.
+
+## Dev and Build
+
+To run the development server, use:
+
+```bash
+npm run dev
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+To build the site for production, use:
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+npm run build
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+To preview the production build locally, use:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```bash
+npm run preview
+``` 
 
-Any static assets, like images, can be placed in the `public/` directory.
+## License
 
-## 🧞 Commands
+There is so little code here, that I don't think it really matters.
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+2025 FuseTim - All rights reserved.
