@@ -186,7 +186,7 @@ const props = Astro.props as Props;
             Consolas,
             Liberation Mono,
             monospace;
-        font-size: 12px;
+        font-size: 0.95rem;
     }
 
     .post-content :global(pre) {
@@ -296,11 +296,22 @@ const props = Astro.props as Props;
     .post-content :global(img) {
         border-style: none;
         max-width: 100%;
+        width: auto;
         height: auto;
+        max-height: 400px;
         box-sizing: content-box;
         object-fit: contain;
-        margin: 0 auto;
         display: block;
+    }
+
+    .post-content :global(p:has(> img):not(:has(> :not(img)))) {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        gap: 0.5rem;
     }
 
     .post-content :global(strong) {
