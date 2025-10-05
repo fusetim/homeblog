@@ -55,6 +55,9 @@ const props = Astro.props as Props;
         :last-child {
             border-radius: 0 0 8px 8px;
         }
+
+        font-size: 1.05rem;
+        line-height: 1.4;
     }
 
     .post-header,
@@ -293,6 +296,15 @@ const props = Astro.props as Props;
     .post-content :global(img) {
         border-style: none;
         max-width: 100%;
+        height: auto;
         box-sizing: content-box;
+        object-fit: contain;
+        margin: 0 auto;
+        display: block;
     }
+
+    .post-content :global(strong) {
+        font-weight: 550;
+    }
+
 </style>
