@@ -4,6 +4,9 @@ import Icons from 'unplugin-icons/vite'
 
 // https://astro.build/config
 export default defineConfig({
+    output: 'static',
+    site: 'https://fusetim.me',
+    base: `/`,
     vite: {
         plugins: [
             Icons({
