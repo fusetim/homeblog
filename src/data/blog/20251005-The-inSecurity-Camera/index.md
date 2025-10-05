@@ -134,7 +134,22 @@ Let's look at the encryption scheme then.
 > [Source -- `packets/cmd_packet.go` -- pprpc/core](https://github.com/pprpc/core/blob/master/packets/cmd_packet.go#L150-L158)
 
 ***Is that a hardcoded key?*** **Yes, yes it is.** But fortunately, it does not seem to work for my device.  
-*Hopefully, this hardcoded key, abandoned in a 5 year old repository, is no longer in used...*
+*Hopefully, this hardcoded key, abandoned in a 5 year old repository, is no longer in use...*
+
+That said, this pattern string should be easy to find in the fireware, *isn't it?* And indeed it is.
+
+Using Ghidra, we can just look for the string `,ID:%d-SEQ:%d-RPC:%d`, which is referenced one time in the whole binary. This location is also referenced by a function elsewere, we can just jump to it. And looking around the other arguments used by the formatting function, we can find the hardcoded secret in the firmware dump.
+
+> So, yes, the secret is in fact hardcoded in the firmware. But it could be worse, nobody is really supposed to have access to it?
+
+Well well well, this secret enables me to decrypt traffic from the camera who has been dumped, but also mine and even worse another camera which is similar but not the exact same model.  
+**All that to say, they reuse the same secret for all camera!**
+
+> Hmm, this is bad...
+
+But it is even worse, you don't need to own a camera to get access to this secret, **the secret is also hardcoded in the official app.** Everyone with an Internet connection is able to decrypt the traffic of all those camera.
+
+## Analysis of the decrypted traffic
 
 ***TODO: WIP***
 
