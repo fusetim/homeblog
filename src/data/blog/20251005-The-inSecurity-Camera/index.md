@@ -95,7 +95,7 @@ program[^CRCFirmware] and be able to analyze it using Ghidra.
 
 ![Front PCB of the camera](./assets/20250822_front_pcb.jpg)![Back PCB of the camera](./assets/20250822_back_pcb.jpg)
 
-## PPRPC - The Chinese Remote Procedure Call
+## Remote Procedure Call
 
 And there again, you are a bit lost. The firmware comes with a lot of functions. But some names starts to look familiar,
 `xcthings`, `pprpc`, `avsdk`. The first one seems to confirm that XC Things is indeed the company behind the software.
@@ -136,7 +136,7 @@ Let's look at the encryption scheme then.
 ***Is that a hardcoded key?*** **Yes, yes it is.** But fortunately, it does not seem to work for my device.  
 *Hopefully, this hardcoded key, abandoned in a 5 year old repository, is no longer in use...*
 
-That said, this pattern string should be easy to find in the fireware, *isn't it?* And indeed it is.
+That said, this pattern string should be easy to find in the firmware, *isn't it?* And indeed it is.
 
 Using Ghidra, we can just look for the string `,ID:%d-SEQ:%d-RPC:%d`, which is referenced one time in the whole binary. This location is also referenced by a function elsewere, we can just jump to it. And looking around the other arguments used by the formatting function, we can find the hardcoded secret in the firmware dump.
 
@@ -147,9 +147,35 @@ Well well well, this secret enables me to decrypt traffic from the camera who ha
 
 > Hmm, this is bad...
 
-But it is even worse, you don't need to own a camera to get access to this secret, **the secret is also hardcoded in the official app.** Everyone with an Internet connection is able to decrypt the traffic of all those camera.
+But it is even worse, you don't need to own a camera to get access to this secret, **the secret is also hardcoded in the official app.** Everyone is able to decrypt the traffic of all those camera.
 
-## Analysis of the decrypted traffic
+> What's the point of encryption then?
+
+Well, apparently it is just for the appearance of it. They would have done a better job at securing all the traffic by simply using TLS, *especially since a TLS library is already present in the firmware (`mbedtls`)*.
+
+## Communicating with the camera
+
+Let's recap where we are in this "investigation":
+
+* PPRPC is the protocol used by the camera to communicate with its servers.
+* We found the secret used for the PPRPC encryption scheme.
+* We still want to know what kind of data is actually transfered using PPRPC.
+
+### PPRPC - How does that work?
+
+We knew already that the camera used UDP and TCP sockets for communications on various ports. Well, for all of those communications, it turns out that PPRPC is the Application protocol used.
+
+This proprietary protocol is actually used as a low level protocol to interact with various services, as the GitHub source codes reveal.
+In the case of the camera, it is used for pub/sub messaging (like MQTT), user/device/server discovery, and also to relay video streams or files. 
+
+The app also highly relies on the PPRPC protocols for both communications with the camera and the home servers. But an extra security layer (TLS) is present for the latter.
+*At least my payment information might be a little more secure? (Have I already mention that they offer a Cloud-based subscribtion service?)*
+
+#### Packets
+
+***TODO: WIP***
+
+#### Encryption scheme
 
 ***TODO: WIP***
 
