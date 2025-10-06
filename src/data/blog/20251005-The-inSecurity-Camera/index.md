@@ -171,9 +171,13 @@ In the case of the camera, it is used for pub/sub messaging (like MQTT), user/de
 The app also highly relies on the PPRPC protocols for both communications with the camera and the home servers. But an extra security layer (TLS) is present for the latter.
 *At least my payment information might be a little more secure? (Have I already mention that they offer a Cloud-based subscribtion service?)*
 
-#### Packets
+#### RPC Packets
 
-***TODO: WIP***
+![PPRPC/UDP - RPC Packet - Ping](assets/pprpc-udp-rpc-ping.png) 
+
+Packets in the PPRPC protocol always start by a common header. It contains a Magic number (only for UDP packets), a packet type (and some flags for the encoding) and the remaining length of the packet.
+
+Depending on the Packet Type, additional headers are introduced and the encoding of the payload might be influenced. For RPC, Audio/Video and File Transfer packets, the encryption of the payload is defined in those additional headers.
 
 #### Encryption scheme
 
