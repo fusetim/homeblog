@@ -140,6 +140,19 @@ That said, this pattern string should be easy to find in the firmware, *isn't it
 
 Using Ghidra, we can just look for the string `,ID:%d-SEQ:%d-RPC:%d`, which is referenced one time in the whole binary. This location is also referenced by a function elsewere, we can just jump to it. And looking around the other arguments used by the formatting function, we can find the hardcoded secret in the firmware dump.
 
+> ```c
+>   if (local_15 == '\x04') {
+>     local_28 = param_1 + 0x20;
+>     local_20 = FUN_00058f60(local_14); // Get the shared secret "A2r0i..."
+>     uVar1 = DAT_0005da3c;
+>     FUN_00080e5c(*(undefined4 *)(local_28 + 0x18),*(undefined4 *)(local_28 + 0x1c),DAT_0005da3c,0);
+>     // The printf function (DAT_0005da40 = "%s,ID:%d-SEQ:%d-RPC:%d")
+>     thunk_FUN_0013ccec(param_3,0x80,DAT_0005da40,local_20,uVar1,*(undefined4 *)(local_28 + 0x10),
+>                        *(undefined *)(local_28 + 0x21));
+>   }
+> ```
+> *Ghidra decompilation of the function using the hardcoded secret.*
+
 > So, yes, the secret is in fact hardcoded in the firmware. But it could be worse, nobody is really supposed to have access to it?
 
 Well well well, this secret enables me to decrypt traffic from the camera who has been dumped, but also mine and even worse another camera which is similar but not the exact same model.  
@@ -181,9 +194,88 @@ Depending on the Packet Type, additional headers are introduced and the encoding
 
 #### Encryption scheme
 
-***TODO: WIP***
+As we saw earlier, most of the packets are actually encrypted at the PPRPC level. Depending on the type of payload, the encryption scheme is slightly different, but the principle is the same.
+
+In all cases, the encryption is always done using symmetric encryption using AES. It appears that different key sizes are supported (128, 192 and 256 bits) as well
+as different modes (in practice: CBC, CFB, but it specified also ECB, OFB and CTR). Nonetheless, in the case of the camera, it seems the only scheme actually in use is AES-256 in CBC mode.
+This mode in particular requires two parameters, **a key and an initialization vector (IV)**. To be secure, the pair should never be reused, and the key should obviously be kept secret.
+
+The actual key is not directly the hardcoded secret we found earlier, but it is derived from it using additional data present in the packet headers (Command ID, 
+Command Sequence and RPC Type). Unfortunately, for the IV, it seems they choose knowingly to use the first 128 bits of the key, which is definetly not random 
+enough. This means, even if the secret was not hardcoded (but for instance provided per connection), the encryption could still be broken using an attack known as a
+**Known Plaintext Attack**[^KPA].
+
+> **Encryption scheme used for RPC packets (for this camera)**:
+>
+> ***PREKEY*** := <10-24 alphanum characters shared secret>  
+> COMMAND_INFO := (***PREKEY*** || **CMD_ID** || **CMD_SEQ**)  
+> HASH := md5(COMMAND_INFO) // 128 bits  
+> KEY := hex(HASH) // technically 256 bits  
+> IV := KEY[:16]  
+> PAYLOAD := AES-256-CBC-ENC(KEY, IV, PLAINTEXT)
+>
+> * * *
+> ***PREKEY*** is supposed to be kept secret  
+> **CMD_ID**, **CMD_SEQ** are public values present in the packet header
+
+### Confirming we can decrypt everything
+
+Now, we have all the keys *literally* in our hands to decrypt the traffic. So let's prove that this is actually the case.
+
+The easiest way to do so without revealing too much "private" information is to look at the answers from their servers.
+For instance, the first packets send by the camera are dedicated to retrieve the list of available services from the home servers. 
+This is a perfect candidate. 
+
+> **Service Discovery Response**  
+> *UDP packet sent from 47.240.1.244:8000.*
+> 
+> * MAGIC: `0x5170`
+> * TYPE_AND_FLAGS: `0x48` - RPC Packet + Protobuf
+> * LENGTH: `0xd501` -> 213
+> * CMDSEQ: `0x00` -> 00
+> * CMDID: `0xd904` = 601 - GLBS--GetServersByDevice
+> * CMDFlags: `0x0d` = `0b00001101` - AES256CBC [AES-VALID]
+>   * EncType: `0b000011`
+>   * RPCType: `0b01` - Reply
+> * Status flag: `0x00` - OK
+> * (Encrypted) Payload  (length: 208 bytes): 
+>   ```
+>   0x6fcb9f46559dcff8c7e9906c736db373738c4d805156757b578e962e07ba0acb4d0ccfa241e17421e5a19e9b6c4987d0340d986117f566dd27835c81ae637195c7f26b06c9451f79bb10d2fa3f036b9980c9189a8cc08c6565092ce6d0144211271951bed431f19e0ab3cc954066f457f6de2016e54e9cca10dd4fc2c8e8061ff73feba853702cb833aa9718d26f7eab2be4ca6f9450b882d6dc7bcab5e14f31bd17aa6e599616fdd4066582eab122575913781cd1a5c9390b5dba3fe8923021186620441148f7f5f1b19acedaefdbfc
+>    ```
+> * Key: `3236656337663630383638373761313562656333366265323931303566666534`
+> * Decrypted Payload: 
+>    ```
+>   0a150801120c382e3230392e37332e3131371a03509d080a150802120c382e3230392e37332e3131371a03509d080a150806120c382e3230392e37342e3230311a0350d1030a160808120c34372e39312e37392e3139351a04c60fc70f0a170808120d34372e3235342e3137342e32321a04c60fc70f0a15080f120d34372e3235342e3137342e32321a02aa040a140812120c382e3230392e37342e3230311a02a5470a140813120c382e3230392e37342e3230311a02c03e280458b58ba0f8d4326097d7fcd48833
+>    ```
+>   Contains server IP addresses: [ `8.209.73.117`, `8.209.74.201`, `47.91.79.195`, `47.254.174.22`, `8.209.74.201` ]
+
+As you can see, we are able to decrypt the payload without any issue. The decrypted payload is actually a protobuf message containing the list of servers
+the camera should connect to. And indeed, `8.209.73.117` and `8.209.74.201` are the two servers the camera connects to right after.
+
+![Wireshark Traffic](assets/wireshark-traffic.png)
+
+## Conclusion
+
+This simple analysis of a cheap IoT camera ends up revealing a lot more than expected. While I would have loved to be surprised if this device
+was actually secure, in reality it is just another example of how insecure those devices can be. And even, if some security mechanisms are in place,
+it is actually important to be able to audit those devices to ensure they are actually secure and not just some "decoration". In any case, it is another
+unfortunate example how those cheap devices are not really thought with security in mind, and with their low price can be widely exploited.
+
+**Crypto is hard**, and it is easy to make a known-to-be-secure algorithm such as AES completely useless by misusing it. In this case, the use of a hardcoded secret
+and a non-random IV completely breaks the security of the encryption scheme. Once again, using well known and well established protocols (like TLS) and libraries  would have been a much better choice. *Even if you might argue that the dependency to those popular cryptographic libraries is also a potential risk.*[^libraryRisk]
+
+I might also write a follow-up article to demonstrate how you can actually go a step further and take remote-control of the camera or intercept the video stream. But for now, I will leave you with this analysis and let you think about the security of your own IoT devices.
+
+*See you soon!*
+
+## Acknowledgements
+
+I would like to thank my colleagues from the [SSIoT course](https://courses.sidnlabs.nl/ssi-2025/) for the great time and the interesting discussions we had.
 
 [^SSIoT]: "Security Services for the Internet of Things", a Master course at the University of Twente. Resources available on [their website](https://courses.sidnlabs.nl/ssi-2025/) if you are curious.
 [^SIDN]: SIDN is the Dutch operator of the top-level domain, `.nl`, [more info on their website](https://www.sidn.nl/en/).
 [^NetworkCapture]: The Network Traffic Capture setup using OpenWRT on a Raspberry Pi is described in detail [in a dedicated GitHub repository](https://github.com/fusetim/ssi-openwrt-setup).
 [^CRCFirmware]: The firmware dump has been made directly from the memory chip. It contains CRC16 checksums that need to be removed before analysis (34 Bytes = 32 bytes + 2 CRC bytes).
+[^KPA]: A Known Plaintext Attack is a cryptographic attack where the attacker has access to both the plaintext and its corresponding ciphertext. By analyzing these pairs, the attacker can deduce patterns or weaknesses in the encryption algorithm, potentially allowing them to decrypt other messages encrypted with the same key.  
+In the specific case of AES-CBC, the known plaintext attack can only recover the first block of plaintext, but this is enough to compromise the security of the entire communication if the same IV is reused.
+[^libraryRisk]: Highly used libraries are more likely to be audited (and generally more trustworthy), however, they are also a more attractive target for attackers. A vulnerability in such a library can have widespread implications, affecting many applications and systems that rely on it.
