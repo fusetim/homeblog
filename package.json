@@ -12,6 +12,7 @@
     "@astrojs/sitemap": "^3.6.0",
     "astro": "^5.7.10",
     "csv-parse": "^6.1.0",
+    "giscus": "^1.6.0",
     "sass": "^1.86.3"
   },
   "devDependencies": {

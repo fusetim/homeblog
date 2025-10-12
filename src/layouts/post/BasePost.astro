@@ -31,9 +31,48 @@ const props = Astro.props as Props;
             <main class="post-content">
                 <slot />
             </main>
-            <div class="post-comments"></div>
+            <div class="post-comments">
+                <noscript>
+                    <p>
+                        Comments are powered by
+                        <a
+                            href="https://giscus.app"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Giscus
+                        </a>
+                        and will load here once you enable JavaScript.
+                    </p>
+                    <p>
+                        If you don't wish to enable Javascript, you can still <a
+                            target="_blank"
+                            href="https://github.com/fusetim/homeblog/discussions/categories/comments"
+                            >leave a comment on GitHub directly.</a>
+                    </p>
+                </noscript>
+                <!-- Giscus comments section -->
+                <giscus-widget
+                    repo="fusetim/homeblog"
+                    repo-id="R_kgDOObyxqA"
+                    category="Comments"
+                    category-id="DIC_kwDOObyxqM4CwiDG"
+                    mapping="pathname"
+                    strict="0"
+                    reactions-enabled="1"
+                    emit-metadata="0"
+                    input-position="bottom"
+                    theme="noborder_light"
+                    lang="en"
+                    loading="lazy"
+                >
+                </giscus-widget>
+            </div>
         </article>
     </div>
+    <script>
+        import "giscus";
+    </script>
 </BasePage>
 
 <style lang="scss">
@@ -317,5 +356,4 @@ const props = Astro.props as Props;
     .post-content :global(strong) {
         font-weight: 550;
     }
-
 </style>
