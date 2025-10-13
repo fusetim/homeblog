@@ -85,7 +85,7 @@ Knowing my limit, I look for an easier target: the camera firmware.
 
 **Finding the firmware is surprisingly quite easy.**
 Just opening the camera package, it reveals the PCB name `INO-IPC-A9-V2.4`. A quick search on Google leads you 
-to a German website with the exact same camera, named [Pinmei A9](https://www.elektroda.com/news/news4118499.html).
+to a Polish website with the exact same camera, named [Pinmei A9](https://www.elektroda.com/news/news4118499.html).
 
 Fortunately for us, the firmware is really easy to dump from the camera, the SPI flash chip is directly accessible on the PCB and
 can be read using a simple SPI programmer. Moreover, it is not encrypted (nor does it seems to be signed).
