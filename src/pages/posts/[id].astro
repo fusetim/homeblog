@@ -21,6 +21,6 @@ const wordCount = getBlogPostWordCount(entry);
 
 ---
 
-<BasePost {...post} readTime={readTime ?? undefined} wordCount={wordCount ?? undefined}>
+<BasePost {...post} date={post.publication_date} readTime={readTime ?? undefined} wordCount={wordCount ?? undefined}>
     <Content />
 </BasePost>
