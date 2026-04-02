@@ -5,7 +5,7 @@ export interface Language {
 };
 
 export const LANGUAGES = {
-    RUST: { id: 'rust', name: 'Rust', color: '#dea584' },
+    RUST: { id: 'rust', name: 'Rust', color: '#c7977c' },
     PYTHON: { id: 'python', name: 'Python', color: '#3572A5' },
     JAVASCRIPT: { id: 'javascript', name: 'JavaScript', color: '#f1e05a' },
     TYPESCRIPT: { id: 'typescript', name: 'TypeScript', color: '#2b7489' },
@@ -22,6 +22,8 @@ export const LANGUAGES = {
     KOTLIN: { id: 'kotlin', name: 'Kotlin', color: '#F18E33' },
     SCALA: { id: 'scala', name: 'Scala', color: '#c22d40' },
     SVELTE: { id: 'sveltejs', name: 'Svelte', color: '#ff3e00' },
+    VERILOG: { id: 'verilog', name: 'Verilog', color: '#2444ff' },
+    SILICE: { id: 'silice', name: 'Silice', color: '#25537a' },
 };
 
 export function getLanguageColor(language: Language): string {
