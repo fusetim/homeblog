@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   output: 'static',
-  site: 'https://fusetim.me',
+  site: 'https://fusetim.space',
   base: `/`,
 
   vite: {
