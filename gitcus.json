@@ -1,4 +1,4 @@
 {
-  "origins": ["https://fusetim.me", "https://www.fusetim.me"],
+  "origins": ["https://fusetim.space", "https://www.fusetim.space", https://fusetim.fr", "https://www.fusetim.fr"],
   "originsRegex": ["http://localhost:[0-9]+"]
 }
