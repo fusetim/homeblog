@@ -2,6 +2,7 @@
 title: "The inSecurity Camera: How not to secure your IoT devices"
 description: "How a simple security analysis of a cheap camera revealed multiple vulnerabilities and what you can learn from it."
 publication_date: 2025-10-05
+last_updated: 2026-10-11
 tags: ["IoT", "Cybersecurity", "Hacking", "Reverse Engineering"]
 ---
 
@@ -264,6 +265,9 @@ unfortunate example how those cheap devices are not really thought with security
 and a non-random IV completely breaks the security of the encryption scheme. Once again, using well known and well established protocols (like TLS) and libraries  would have been a much better choice. *Even if you might argue that the dependency to those popular cryptographic libraries is also a potential risk.*[^libraryRisk]
 
 I might also write a follow-up article to demonstrate how you can actually go a step further and take remote-control of the camera or intercept the video stream. But for now, I will leave you with this analysis and let you think about the security of your own IoT devices.
+
+***EDIT 2026/10/11:*** *A year after this post, I have not had the opportunity to go further and explore the potential for video interception.
+ Nevertheless, thanks to the efforts of **[@zkiiito](https://github.com/zkiiito)**, video interception is now a reality, checkout its github project, **[zkiiito/A9](https://github.com/zkiiito/A9)**, to try it yourself.*
 
 *See you soon!*
 
